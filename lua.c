@@ -19,7 +19,28 @@
 
 #include "lauxlib.h"
 #include "lualib.h"
+#include <windows.h>
 
+BOOL APIENTRY DllMain(HMODULE hModule,
+    DWORD  ul_reason_for_call,
+    LPVOID lpReserved)
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        char buf[8];
+        if (!GetEnvironmentVariableA("LAUNCHED_BY_RGONLAUNCHER", buf, sizeof(buf))) {
+            MessageBoxA(0, "This exe should only be launched using the REPENTOGONLauncher, otherwise your saves may be fucked!\n If you are launching using the launcher, then it may be outdated... update it!", "Use The Launcher!", MB_ICONSTOP);
+            ExitProcess(0);
+        }
+        break;
+
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+
+    return TRUE;
+}
 
 #if !defined(LUA_PROGNAME)
 #define LUA_PROGNAME		"lua"
