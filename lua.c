@@ -21,6 +21,11 @@
 #include "lualib.h"
 #include <windows.h>
 
+/* Internal symbol used to identify this DLL as changed for the purposes of
+ * Repentogon.
+ */
+__declspec(dllexport) const char LUA_REPENTOGON = 1;
+
 BOOL APIENTRY DllMain(HMODULE hModule,
     DWORD  ul_reason_for_call,
     LPVOID lpReserved)
